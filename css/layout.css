@@ -1,0 +1,45 @@
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+}
+
+.view {
+  min-height: 100%;
+}
+
+.screen-header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0 0 16px;
+}
+
+.play-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.progress {
+  margin: 0;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.problem-kind {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: 700;
+}

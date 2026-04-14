@@ -1,0 +1,8 @@
+/* 화면 전환·플레이 카드 미세 조정 */
+.play-card {
+  padding-bottom: 20px;
+}
+
+#view-setup .card {
+  margin-top: 8px;
+}

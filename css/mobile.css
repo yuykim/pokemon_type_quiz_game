@@ -1,0 +1,20 @@
+/* 모바일 터치·작은 화면 */
+@media (max-width: 380px) {
+  .type-grid {
+    gap: 6px;
+  }
+
+  .type-tile {
+    padding: 6px 4px;
+    font-size: 0.72rem;
+  }
+}
+
+/* iOS safe area는 layout에서 처리 */
+
+@media (hover: none) and (pointer: coarse) {
+  .btn,
+  .type-tile {
+    -webkit-tap-highlight-color: transparent;
+  }
+}

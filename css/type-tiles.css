@@ -1,0 +1,38 @@
+.type-grid-host {
+  margin-top: 4px;
+}
+
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (min-width: 520px) {
+  .type-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.type-tile {
+  min-height: var(--tap-min);
+  padding: 8px 6px;
+  border-radius: var(--radius-sm);
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  background: var(--tile-bg);
+  color: var(--tile-fg);
+  font-weight: 700;
+  font-size: clamp(0.75rem, 2.8vw, 0.88rem);
+  text-align: center;
+  touch-action: manipulation;
+}
+
+.type-tile:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.type-tile--selected {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(124, 108, 240, 0.4);
+}
