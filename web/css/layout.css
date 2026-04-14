@@ -7,6 +7,23 @@
   padding-right: max(12px, env(safe-area-inset-right));
 }
 
+.top-banner {
+  width: min(720px, calc(100% - 24px));
+  margin: 12px auto 4px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.top-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
+}
+
 .view {
   min-height: 100%;
 }
