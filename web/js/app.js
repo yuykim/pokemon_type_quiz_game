@@ -21,7 +21,7 @@ function show(el) {
 function startSummary() {
   if (!session) return;
   show(viewSummary);
-  showSummary(viewSummary, session.summaryLines(), () => {
+  showSummary(viewSummary, session.summaryLines(), session.attackMasteryRows(), () => {
     session = null;
     viewPlay.innerHTML = "";
     mountSetup();

@@ -43,9 +43,21 @@ export function renderResult(root, p) {
     const answerIndices = attackIndicesForTarget(defs, target);
     const optimal = isAttackTargetSolved(atks, defs, target);
     optTitle.textContent = S.optimalAttackTitle;
-    optList.innerHTML = answerIndices
-      .map((i) => `<span class="opt-chip">${labelKo(idAt(i))}</span>`)
-      .join(" ");
+    const chosenSet = new Set(atks);
+    const answerSet = new Set(answerIndices);
+    const hit = atks.filter((i) => answerSet.has(i));
+    const wrong = atks.filter((i) => !answerSet.has(i));
+    const missed = answerIndices.filter((i) => !chosenSet.has(i));
+    optList.innerHTML = `
+      <div class="answer-legend">
+        <span class="legend-item"><span class="legend-dot legend-dot--hit"></span> ${S.legendHit}</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--wrong"></span> ${S.legendWrong}</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--missed"></span> ${S.legendMissed}</span>
+      </div>
+      <div class="answer-group"><strong>${S.legendHit}</strong><br>${renderTypedChips(hit, "opt-chip--hit")}</div>
+      <div class="answer-group"><strong>${S.legendWrong}</strong><br>${renderTypedChips(wrong, "opt-chip--wrong")}</div>
+      <div class="answer-group"><strong>${S.legendMissed}</strong><br>${renderTypedChips(missed, "opt-chip--missed")}</div>
+    `;
     const note = document.createElement("p");
     note.className = "result-note";
     note.textContent = optimal ? S.alreadyOptimal : S.betterExistsAttack;
@@ -70,4 +82,15 @@ export function renderResult(root, p) {
     note.textContent = optimal ? S.alreadyOptimal : S.betterExistsDefense;
     root.append(multEl, breakdownEl, note, optTitle, optList);
   }
+}
+
+/**
+ * @param {number[]} indices
+ * @param {string} klass
+ */
+function renderTypedChips(indices, klass) {
+  if (indices.length === 0) return `<span class="opt-chip opt-chip--empty">${S.none}</span>`;
+  return indices
+    .map((i) => `<span class="opt-chip ${klass}">${labelKo(idAt(i))}</span>`)
+    .join(" ");
 }

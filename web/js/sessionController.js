@@ -1,7 +1,8 @@
 import { N_MIN, N_MAX } from "./config.js";
 import { buildProblemList } from "./domain/problemGenerator.js";
-import { isAttackTargetSolved } from "./domain/attackTarget.js";
+import { attackIndicesForTarget, isAttackTargetSolved } from "./domain/attackTarget.js";
 import { isDefenseOptimal, normalizeDefenseCombo } from "./domain/optimalDefense.js";
+import { TYPE_IDS, idAt, labelKo } from "./types.js";
 
 /**
  * @typedef {object} SessionSettings
@@ -27,6 +28,11 @@ export class SessionController {
       defenseHit: 0,
       defenseTotal: 0,
     };
+    this.attackTypeStats = Array.from({ length: TYPE_IDS.length }, () => ({
+      required: 0,
+      hit: 0,
+      wrong: 0,
+    }));
   }
 
   get finished() {
@@ -42,8 +48,19 @@ export class SessionController {
     const p = this.current;
     if (p.kind !== "attack") return;
     this.stats.attackTotal += 1;
+    const chosen = Array.from(new Set(attackIndices)).sort((a, b) => a - b);
+    const answer = attackIndicesForTarget(p.defenderIndices, p.targetMultiplier);
+
+    for (const idx of answer) {
+      this.attackTypeStats[idx].required += 1;
+      if (chosen.includes(idx)) this.attackTypeStats[idx].hit += 1;
+    }
+    for (const idx of chosen) {
+      if (!answer.includes(idx)) this.attackTypeStats[idx].wrong += 1;
+    }
+
     const ok = isAttackTargetSolved(
-      attackIndices,
+      chosen,
       p.defenderIndices,
       p.targetMultiplier
     );
@@ -79,6 +96,33 @@ export class SessionController {
       );
     }
     return lines;
+  }
+
+  /**
+   * 타입별 암기 완성도(공격 문제 기준).
+   * - recall(재현율): 맞아야 하는 상황에서 실제로 맞춘 비율
+   * - precision(정밀도): 내가 고른 것 중 실제 정답 비율
+   * - completion = 0.6 * recall + 0.4 * precision
+   */
+  attackMasteryRows() {
+    return this.attackTypeStats.map((s, idx) => {
+      const miss = s.required - s.hit;
+      const precisionDen = s.hit + s.wrong;
+      const recall = s.required > 0 ? s.hit / s.required : 1;
+      const precision = precisionDen > 0 ? s.hit / precisionDen : 1;
+      const exposed = s.required + s.wrong;
+      const completion = exposed > 0 ? Math.round((0.6 * recall + 0.4 * precision) * 100) : null;
+      return {
+        typeIndex: idx,
+        typeId: idAt(idx),
+        typeKo: labelKo(idAt(idx)),
+        required: s.required,
+        hit: s.hit,
+        miss,
+        wrong: s.wrong,
+        completion,
+      };
+    });
   }
 }
 

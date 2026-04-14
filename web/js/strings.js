@@ -39,9 +39,16 @@ export const S = {
   alreadyOptimal: "정답을 모두 정확히 골랐습니다.",
   betterExistsAttack: "정답 타입 목록은 아래와 같습니다.",
   betterExistsDefense: "더 유리한 방어 조합(동률 최적 전부)은 아래와 같습니다.",
+  legendHit: "맞은 선택",
+  legendWrong: "틀린 선택",
+  legendMissed: "놓친 정답",
+  none: "없음",
   sessionDone: "세션 종료",
   summaryHeading: "요약",
   summaryAttack: (hit, total) => `공격 문제: 정답 선택 ${hit} / ${total}`,
   summaryDefense: (hit, total) => `방어 문제: 최선 선택 ${hit} / ${total}`,
+  masteryHeading: "타입별 암기 완성도 (공격 기준)",
+  masteryRule:
+    "완성도 = 60% 재현율(맞아야 할 때 맞춤) + 40% 정밀도(고른 것 중 정답 비율)",
   again: "다시 설정하기",
 };
