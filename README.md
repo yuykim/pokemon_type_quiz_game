@@ -2,7 +2,8 @@
 
 기획: `doc/pokemon_type_game_design_spec.md`  
 실행 파일: `web/` 정적 사이트 (Vanilla JS ES modules).   
-depoly addr : https://pokemon-type-quiz-game-git-main-yyoungs-projects.vercel.app/.
+depoly addr : https://pokemon-type-quiz-game.vercel.app/  
+
 
 ## 실행 방법
 
